@@ -23,7 +23,5 @@ def printingStars(x, y, n):
 
 printingStars(0, 0, n)
 
-print(graph)
-
 for ele in graph:
   print("".join(ele))
