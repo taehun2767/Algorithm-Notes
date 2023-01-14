@@ -13,3 +13,4 @@ def fib(n):
     return dp[n]
 
 print(fib(n), n-2)
+ 
