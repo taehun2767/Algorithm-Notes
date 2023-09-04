@@ -5,7 +5,6 @@
 
 using namespace std;
 
-
 int n;
 int childrens[MAX];
 vector<int> cache[MAX];
