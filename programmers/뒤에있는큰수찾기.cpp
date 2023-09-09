@@ -1,31 +1,28 @@
 #include <string>
 #include <vector>
-#include <algorithm>
-#include <iostream>
+#include <stack>
 
 using namespace std;
 
 vector<int> solution(vector<int> numbers) {
-    vector<int> answer (numbers.size(), 0);
     int sz = numbers.size();
-    int maxNumber = -1;
+    vector<int> answer(sz, -1);
+    stack<int> stk;
+    
     for(int i = sz - 1; i >= 0; i--){
-        if(maxNumber < numbers[i]){
-            answer[i] = -1;
-            maxNumber = max(maxNumber, numbers[i]);
-            continue;
-        }
-        
-        int nextNumber = -1;
-        for(int j = i + 1; j < sz; j++){
-            if(numbers[i] < numbers[j]){
-                nextNumber = numbers[j];
-                maxNumber = max(maxNumber, numbers[i]);
+        while(true){
+            if(stk.empty()){
                 break;
             }
+            
+            if(numbers[i] < stk.top()){
+                answer[i] = stk.top();
+                break;
+            }
+            
+            stk.pop();
         }
-        answer[i] = nextNumber;
-        
+        stk.push(numbers[i]);
     }
     return answer;
 }
