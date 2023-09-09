@@ -18,17 +18,9 @@ int solution(int x, int y, int n) {
         
         for(int j = 0; j < 3; j++){
             int nx;
-            switch(j){
-                case 0:
-                    nx = i + n;
-                    break;
-                case 1:
-                    nx = 2 * i;
-                    break;
-                case 2:
-                    nx = 3 * i;
-                    break;
-            }
+            if(j == 0) nx = i + n;
+            else if(j == 1) nx = 2 * i;
+            else if(j == 2) nx = 3 * i;
             if(nx > y)
                 continue;
             dp[nx] = min(dp[nx], dp[i] + 1);
