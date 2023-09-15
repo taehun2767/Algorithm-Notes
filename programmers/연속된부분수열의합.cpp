@@ -1,30 +1,39 @@
 #include <string>
 #include <vector>
+#include <iostream>
 
 using namespace std;
 
 vector<int> solution(vector<int> sequence, int k) {
-    int minLength = 100000000;
+
     vector<int> answer;
     int sz = sequence.size();
-    int sum = 0;
-    for(int i = 0; i < sz; i++){
-        sum += sequence[i];
-        for(int j = i; j < sz; j++){
-            if(sum > k)
-                break;
-            
-            if(i != j)
-                sum += sequence[j];
-            
-            if(sum == k && j - i < minLength){
-                minLength = j - i;
-                answer.clear();
-                answer.push_back(i);
-                answer.push_back(j);
-            }
+    int minLength = sz;
+    int sum = sequence[0];
+    
+    int s = 0;
+    int e = 0;
+    
+    while(s <= e && e < sz){
+        if(sum < k){
+            sum += sequence[++e];
         }
-        sum = 0;
+        else if(sum == k){
+            if(e - s < minLength){
+                minLength = e - s;
+                answer = {s, e};
+            }
+            else if(e -s == minLength){
+                if(answer[0] > s){
+                    answer = {s, e};
+                }
+            }
+            sum -= sequence[s++];
+        }
+        else{
+
+            sum -= sequence[s++];
+        }
     }
     return answer;
 }
