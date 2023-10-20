@@ -3,12 +3,13 @@
 
 using namespace std;
 
+int ret = 10000000;
+
 int backtracking(int storey, int count){
     if(storey < 10){
         return min(storey + count, 10 - storey + 1 + count);
     }
     
-    int ret = 10000000;
     ret = min(ret, backtracking(storey / 10, count + storey % 10));
     ret = min (ret, backtracking(storey / 10  + 1, count + 10 - storey % 10));
     
