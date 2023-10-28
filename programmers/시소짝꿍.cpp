@@ -1,25 +1,27 @@
 #include <string>
 #include <vector>
+#include <iostream>
 
-#define MAX 2001
 using namespace std;
-long long dp[2001];
-bool visit[2001];
+
+bool check(int a, int b){
+    vector<int> mult = {2, 3, 4};
+    for(int i = 0; i < 3; i++){
+        for(int j = 0; j < 3; j++){
+            if(a * mult[i] == b * mult[j])
+                return true;
+        }
+    }
+    return false;
+}
+
 long long solution(vector<int> weights) {
     long long answer = 0;
-    for(auto i : weights)
-        dp[i] += 1;
-    for(auto i : weights){
-        if(dp[i] > 1 && visit[i] == false){
-            answer +=  dp[i] * (dp[i] - 1) / 2;
-            visit[i] = true;
+    int sz = weights.size();
+    for(int i = 0; i < sz; i++){
+        for(int j = i + 1; j < sz; j++){
+            answer += check(weights[i], weights[j]);
         }
-        if(2 * i < MAX && dp[2 * i])
-            answer += dp[2 * i];
-        if(i % 3 == 0 && i/3 * 4 < MAX && dp[i/3 * 4])
-            answer += dp[i/3 * 4];
-        if(i % 2 == 0 && i/2 * 3 < MAX && dp[i/2 * 3])
-            answer += dp[i/2 * 3];
-    } 
+    }
     return answer;
 }
