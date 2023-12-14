@@ -2,28 +2,30 @@
 #include <set>
 using namespace std;
 
-set<int> s;
+int bit = 0;
 
 void function(const string& inst,const int& num = -1){
 
     if(inst == "add")
-        s.insert(num);
+        bit |= 1 << num;
     else if(inst == "remove")
-        s.erase(num);
+        bit &= ~(1 << num);
     else if (inst == "check") {
-        int check = s.find(num) != s.end();
-        cout << check << "\n";
+        if(bit & (1 << num))
+            cout << "1\n";
+        else
+            cout << "0\n";
     }
     else if(inst == "toggle"){
-        if(s.find(num) == s.end())
-            s.insert(num);
+        if(bit & (1 << num))
+            bit &= ~(1 << num);
         else
-            s.erase(num);
+            bit |= 1<< num;
     }
     else if(inst == "all")
-        s = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
+        bit = (1 << 21) - 1;
     else if(inst == "empty")
-        s = {};
+        bit = 0;
 }
 
 int main(){
