@@ -1,0 +1,34 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <map>
+
+#define fastio() ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+
+using namespace std;
+
+int main(){
+    fastio();
+    int n, num;
+    vector<int> nums, sortedNums;
+    map<int, int> dict;
+    cin >> n;
+    for(int i = 0 ; i < n; i++){
+        cin >> num;
+        nums.push_back(num);
+    }
+
+    sortedNums = nums;
+    sort(sortedNums.begin(), sortedNums.end());
+    sortedNums.erase(unique(sortedNums.begin(), sortedNums.end()), sortedNums.end());
+
+
+    int sz = sortedNums.size();
+    for(int i = 0; i < sz; i++){
+        dict[sortedNums[i]] = i;
+    }
+
+    for(int i = 0; i < n; i++){
+        cout << dict[nums[i]] << " ";
+    }
+}
