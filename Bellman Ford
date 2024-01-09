@@ -1,0 +1,61 @@
+#include <iostream>
+#include <vector>
+#include <cstring>
+
+#define endl "\n"
+#define fastio() ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+#define MAX 501
+#define INF 1e9
+
+using namespace std;
+
+typedef pair<int, int> pii;
+
+int dist[MAX] = {0,};
+vector<pair<pii, int>> edges;
+int tc;
+int n, m, w;
+int s, e, t;
+
+void bellmanFord(){
+
+    for(int i = 1; i <= n; i++){
+        for(int j = 0; j < edges.size(); j++){
+            int from = edges[j].first.first;
+            int to = edges[j].first.second;
+            int time = edges[j].second;
+
+            if(dist[to] > dist[from] + time) {
+                dist[to] = dist[from] + time;
+                if(i == n){
+                    cout << "YES" << endl;
+                    return;
+                }
+            }
+        }
+    }
+    cout << "NO" << endl;
+}
+
+int main(){
+
+    fastio();
+    cin >> tc;
+    while(tc--){
+        cin >> n >> m >> w;
+        fill_n(dist, MAX, INF);
+        edges.clear();
+        for(int i = 0; i < m; i++){
+            cin >> s >> e >> t;
+            edges.emplace_back(make_pair(s, e), t);
+            edges.emplace_back(make_pair(e, s), t);
+        }
+
+        for(int j = 0; j < w; j++){
+            cin >> s >> e >> t;
+            edges.emplace_back(make_pair(s, e), -t);
+        }
+
+        bellmanFord();
+    }
+}
