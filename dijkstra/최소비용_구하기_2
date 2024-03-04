@@ -1,0 +1,83 @@
+#include <iostream>
+#include <queue>
+#include <vector>
+#include <stack>
+
+#define fastio() ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+#define pii pair<int, int>
+#define MAX 1001
+#define INF 1e9
+
+using namespace std;
+
+int n, m, s, d, w;
+int source, destination;
+
+int parent[MAX];
+int dist[MAX];
+vector<pii> edges[MAX];
+
+void printPath(int destination){
+    int cnt = 0;
+    stack<int> s;
+    int cur = destination;
+    while(parent[cur] != cur){
+        s.push(cur);
+        cur = parent[cur];
+        cnt++;
+    }
+    s.push(cur);
+    cnt++;
+
+    cout << cnt << endl;
+
+    while(s.empty() == false){
+        cout << s.top() << " ";
+        s.pop();
+    }
+    cout << endl;
+}
+
+void dijkstra(int source){
+    for(int i = 1; i <= n; i++){
+        dist[i] = INF;
+    }
+
+    priority_queue<pii> pq;
+    parent[source] = source;
+    dist[source] = 0;
+    pq.emplace(0, source);
+    while(pq.empty() == false){
+        int curDist = -pq.top().first;
+        int curPos = pq.top().second;
+        pq.pop();
+
+        if(curDist > dist[curPos])
+            continue;
+
+        for(const auto e : edges[curPos]){
+            int nxt = e.first;
+            int nxtDist = e.second;
+            if(curDist + nxtDist < dist[nxt]){
+                parent[nxt] = curPos;
+                dist[nxt] = curDist + nxtDist;
+                pq.emplace(-dist[nxt], nxt);
+            }
+        }
+    }
+}
+
+int main(){
+    fastio();
+    cin >> n;
+    cin >> m;
+    for(int i = 0; i < m; i++){
+        cin >> s >> d >> w;
+        edges[s].emplace_back(d,w);
+    }
+    cin >> source >> destination;
+
+    dijkstra(source);
+    cout << dist[destination] << endl;
+    printPath(destination);
+}
